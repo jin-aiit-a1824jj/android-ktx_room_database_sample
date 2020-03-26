@@ -3,6 +3,7 @@ package a1824jj.jp.ac.aiit.roomdemo_ktx
 import a1824jj.jp.ac.aiit.roomdemo_ktx.db.Subscriber
 import a1824jj.jp.ac.aiit.roomdemo_ktx.db.SubscriberRepository
 import android.util.MutableDouble
+import android.util.Patterns
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.lifecycle.LiveData
@@ -38,16 +39,25 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
     }
 
     fun saveOrUpdate(){
-        if(isUpdateOrDelete){
-            subscriberToUpdateOrDelete.name = inputName.value!!
-            subscriberToUpdateOrDelete.email = inputEmail.value!!
-            update(subscriberToUpdateOrDelete)
+
+        if(inputEmail.value == null){
+            statusMessage.value = Event("Please enter subscriber's email")
+        }else if(!Patterns.EMAIL_ADDRESS.matcher(inputEmail.value!!).matches()){
+            statusMessage.value = Event("Please enter a correct email address")
+        }else if(inputName.value == null){
+            statusMessage.value = Event("Please enter subscriber's name")
         }else{
-            val name = inputName.value!!
-            val email = inputEmail.value!!
-            insert(Subscriber(0, name, email))
-            inputName.value = null
-            inputEmail.value = null
+            if(isUpdateOrDelete){
+                subscriberToUpdateOrDelete.name = inputName.value!!
+                subscriberToUpdateOrDelete.email = inputEmail.value!!
+                update(subscriberToUpdateOrDelete)
+            }else{
+                val name = inputName.value!!
+                val email = inputEmail.value!!
+                insert(Subscriber(0, name, email))
+                inputName.value = null
+                inputEmail.value = null
+            }
         }
     }
 
