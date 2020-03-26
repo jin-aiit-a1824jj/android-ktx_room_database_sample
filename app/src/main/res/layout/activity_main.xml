@@ -1,52 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
         <variable
             name="myViewModel"
             type="a1824jj.jp.ac.aiit.roomdemo_ktx.SubscriberViewModel" />
     </data>
-
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="15dp"
         android:orientation="vertical"
-        tools:context=".MainActivity"
-        android:layout_margin="15dp">
-
+        tools:context=".MainActivity" >
 
         <EditText
             android:id="@+id/name_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
             android:layout_margin="15dp"
             android:layout_marginBottom="5dp"
-            android:hint="Subscribe's name"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:ems="10"
             android:text="@={myViewModel.inputName}"
-            />
-
+            android:hint="Subscriber's name"
+            android:inputType="textPersonName"
+            android:textStyle="bold" />
         <EditText
             android:id="@+id/email_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress"
             android:layout_margin="15dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:hint="Subscribe's email"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:text="@={myViewModel.inputEmail}"
-            />
+            android:ems="10"
+            android:hint="Subscriber's email"
+            android:inputType="textPersonName"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,9 +49,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@={myViewModel.saveOrUpdateButtonText}"
+                android:onClick="@{()->myViewModel.saveOrUpdate()}"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:onClick="@{()->myViewModel.saveOrUpdate()}"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/clear_all_or_delete_button"
@@ -69,9 +59,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@={myViewModel.clearAllOrDeleteButtonText}"
+                android:onClick="@{()->myViewModel.clearAllOrDelete()}"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:onClick="@{()->myViewModel.clearAllOrDelete()}"/>
+                android:textStyle="bold" />
+
 
         </LinearLayout>
 
@@ -79,9 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/subscriber_recyclerView"
-            android:layout_margin="5dp"/>
-
+            android:layout_margin="5dp"
+            />
     </LinearLayout>
-
-
 </layout>
