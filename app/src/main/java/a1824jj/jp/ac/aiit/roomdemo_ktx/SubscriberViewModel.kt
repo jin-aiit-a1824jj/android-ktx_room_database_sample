@@ -2,8 +2,10 @@ package a1824jj.jp.ac.aiit.roomdemo_ktx
 
 import a1824jj.jp.ac.aiit.roomdemo_ktx.db.Subscriber
 import a1824jj.jp.ac.aiit.roomdemo_ktx.db.SubscriberRepository
+import android.util.MutableDouble
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,6 +26,11 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
     val saveOrUpdateButtonText = MutableLiveData<String>()
     @Bindable
     val clearAllOrDeleteButtonText = MutableLiveData<String>()
+
+    private val statusMessage = MutableLiveData<Event<String>>()
+
+    val message : LiveData<Event<String>>
+        get() = statusMessage
 
     init {
         saveOrUpdateButtonText.value = "Save"
@@ -63,12 +70,15 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
     }
 
     private fun insert(subscriber: Subscriber) =
-        viewModelScope.launch { repository.insert(subscriber) }
+        viewModelScope.launch {
+            repository.insert(subscriber)
+            statusMessage.value = Event("Subscriber Inserted Successfully")
+        }
 
     private fun update(subscriber: Subscriber) =
         viewModelScope.launch {
             repository.update(subscriber)
-
+            statusMessage.value = Event("Subscriber updated Successfully")
         }
 
     private fun delete(subscriber: Subscriber) =
@@ -79,10 +89,14 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
             isUpdateOrDelete = false
             saveOrUpdateButtonText.value = "Save"
             clearAllOrDeleteButtonText.value = "Clear All"
+            statusMessage.value = Event("Subscriber deleted Successfully")
         }
 
     private fun clearAll() =
-        viewModelScope.launch { repository.deleteAll() }
+        viewModelScope.launch {
+            repository.deleteAll()
+            statusMessage.value = Event("Subscriber Deleted All Successfully")
+        }
 
 
 
